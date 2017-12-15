@@ -32,10 +32,13 @@
 
 
 // Define board type for pin map and default settings.
-#define CPU_MAP_SMOOTHIEBOARD   // Smoothieboard (NXP LPC1769 MCU)
+//#define CPU_MAP_SMOOTHIEBOARD   // Smoothieboard (NXP LPC1769 MCU)
+//#define CPU_MAP_SPEEDYBOARD   // Speedyboard (NXP LPC1769 MCU)
 //#define CPU_MAP_C3D_REMIX       // Cohesion3D Remix (NXP LPC1769 MCU)
 //#define CPU_MAP_C3D_MINI        // Cohesion3D Mini (NXP LPC1769 MCU)
 //#define CPU_MAP_MKS_SBASE       // MKS SBASE Board (NXP LPC1768 MCU)
+//#define CPU_MAP_MKS_SBASE_MLASER       // MKS SBASE Board (NXP LPC1768 MCU)
+#define CPU_MAP_MKS_SBASE_MCNC   // MKS SBASE Board (NXP LPC1768 MCU)
 //#define CPU_MAP_AZTEEG_X5       // Azteeg X5 Board (NXP LPC1769 MCU)
 
 // Force Spincle PWM Pin 2.4 (default is P2.5)
@@ -45,6 +48,7 @@
 //#define DEFAULTS_GENERIC
 #define DEFAULTS_K40
 //#define DEFAULTS_FABKIT
+//#define DEFAULTS_MCNC_1000MM
 
 // Serial baud rate
 // #define BAUD_RATE 230400
@@ -111,8 +115,8 @@
 // on separate pin, but homed in one cycle. Also, it should be noted that the function of hard limits
 // will not be affected by pin sharing.
 // NOTE: Defaults are set for a traditional 3-axis CNC machine. Z-axis first to clear, followed by X & Y.
-//#define HOMING_CYCLE_0 (1<<Z_AXIS)                // REQUIRED: First move Z to clear workspace.
-//#define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))  // OPTIONAL: Then move X,Y at the same time.
+#define HOMING_CYCLE_0 (1<<Z_AXIS)                // REQUIRED: First move Z to clear workspace.
+#define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))  // OPTIONAL: Then move X,Y at the same time.
 // #define HOMING_CYCLE_2                         // OPTIONAL: Uncomment and add axes mask to enable
 
 // NOTE: The following are two examples to setup homing for 2-axis machines.
@@ -136,7 +140,7 @@
 // After homing, Grbl will set by default the entire machine space into negative space, as is typical
 // for professional CNC machines, regardless of where the limit switches are located. Uncomment this
 // define to force Grbl to always set the machine origin at the homed location despite switch orientation.
-// #define HOMING_FORCE_SET_ORIGIN // Uncomment to enable.
+#define HOMING_FORCE_SET_ORIGIN // Uncomment to enable.
 
 // Uncomment this define to force Grbl to always set the machine origin at bottom left.
 #define HOMING_FORCE_POSITIVE_SPACE // Uncomment to enable.
