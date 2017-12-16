@@ -76,6 +76,7 @@
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0        // mm
   #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #ifdef DEFAULTS_K40
@@ -127,6 +128,60 @@
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 2.0        // mm
   #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
+#endif
+
+#ifdef DEFAULTS_RUIJIE
+  // Description: 100W 600x400 laser in Morgan workshop
+  #define DEFAULT_X_STEPS_PER_MM 300.0      // 200 stepps/rev. * 32 microstepps / 40mm/rev
+  #define DEFAULT_Y_STEPS_PER_MM 300.0
+  #define DEFAULT_Z_STEPS_PER_MM 5000.0
+  #define DEFAULT_A_STEPS_PER_MM 160.0
+  #define DEFAULT_X_MAX_RATE 15000.0        // mm/min
+  #define DEFAULT_Y_MAX_RATE 15000.0        // mm/min
+  #define DEFAULT_Z_MAX_RATE 500.0          // mm/min
+  #define DEFAULT_A_MAX_RATE 15000.0        // mm/min
+  #define DEFAULT_X_ACCELERATION (2500.0*60*60) // 2500*60*60 mm/min^2 = 2500 mm/sec^2
+  #define DEFAULT_Y_ACCELERATION (2500.0*60*60) // 2500*60*60 mm/min^2 = 2500 mm/sec^2
+  #define DEFAULT_Z_ACCELERATION (2500.0*60*60) // 2500*60*60 mm/min^2 = 2500 mm/sec^2
+  #define DEFAULT_A_ACCELERATION (2500.0*60*60) // 2500*60*60 mm/min^2 = 2500 mm/sec^2
+  #define DEFAULT_X_CURRENT 0.6             // amps
+  #define DEFAULT_Y_CURRENT 0.6             // amps
+  #define DEFAULT_Z_CURRENT 0.0             // amps
+  #define DEFAULT_A_CURRENT 0.0             // amps
+  #define DEFAULT_X_MAX_TRAVEL 625.0        // mm NOTE: Must be a positive value.
+  #define DEFAULT_Y_MAX_TRAVEL 430.0        // mm NOTE: Must be a positive value.
+  #define DEFAULT_Z_MAX_TRAVEL 100.0         // mm NOTE: Must be a positive value.
+  #define DEFAULT_A_MAX_TRAVEL 100.0        // mm NOTE: Must be a positive value.
+  #define DEFAULT_SPINDLE_PWM_FREQ 5000     // Hz (2000 - 20000)
+  #define DEFAULT_SPINDLE_PWM_OFF_VALUE 0   // %
+  #define DEFAULT_SPINDLE_PWM_MIN_VALUE 1   // %
+  #define DEFAULT_SPINDLE_PWM_MAX_VALUE 100 // %
+  #define DEFAULT_SPINDLE_RPM_MAX 1.0       // rpm (S-value)
+  #define DEFAULT_SPINDLE_RPM_MIN 0.0       // rpm (S-value)
+  #define DEFAULT_STEP_PULSE_MICROSECONDS 10
+  #define DEFAULT_STEPPING_INVERT_MASK 0
+  #define DEFAULT_DIRECTION_INVERT_MASK 0   // 0 = standard
+  #define DEFAULT_STEPPER_IDLE_LOCK_TIME 255// msec (0-254, 255 keeps steppers enabled)
+  #define DEFAULT_STATUS_REPORT_MASK 0      // WPos enabled
+  #define DEFAULT_JUNCTION_DEVIATION 0.01   // mm
+  #define DEFAULT_ARC_TOLERANCE 0.002       // mm
+  #define DEFAULT_REPORT_INCHES 0           // false
+  #define DEFAULT_INVERT_ST_ENABLE 0        // false
+  #define DEFAULT_INVERT_LIMIT_PINS 0       // true for microswitches / false for optical sensors
+  #define DEFAULT_SOFT_LIMIT_ENABLE 1       // true
+  #define DEFAULT_HARD_LIMIT_ENABLE 0       // false
+  #define DEFAULT_INVERT_PROBE_PIN 0        // false
+  #define DEFAULT_LASER_MODE 1              // true
+  #define DEFAULT_HOMING_ENABLE 1           // true
+  #define DEFAULT_HOMING_DIR_MASK 7         // move top/right (0;0)
+  #define DEFAULT_HOMING_FEED_RATE 50.0     // mm/min
+  #define DEFAULT_HOMING_SEEK_RATE 6000.0   // mm/min
+  #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
+  #define DEFAULT_HOMING_PULLOFF 2.0        // mm
+  #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))
+  #define HOMING_CYCLE_1 (1<<Z_AXIS)
+  #define DEFAULT_XY_FACTOR 0.938           // x:1 factor  0=-10% x   2=+10% x
 #endif
 
 #ifdef DEFAULTS_FABKIT
@@ -179,6 +234,7 @@
   #define DEFAULT_HOMING_PULLOFF 2.0        // mm
   #define HOMING_CYCLE_0 (1<<Z_AXIS)
   #define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #ifdef DEFAULTS_SHERLINE_5400
@@ -222,6 +278,7 @@
   #define DEFAULT_HOMING_SEEK_RATE 635.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #ifdef DEFAULTS_SHAPEOKO
@@ -268,6 +325,7 @@
   #define DEFAULT_HOMING_SEEK_RATE 250.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #ifdef DEFAULTS_SHAPEOKO_2
@@ -314,6 +372,7 @@
   #define DEFAULT_HOMING_SEEK_RATE 250.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #ifdef DEFAULTS_SHAPEOKO_3
@@ -359,6 +418,7 @@
   #define DEFAULT_HOMING_SEEK_RATE 1000.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 25 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 5.0 // mm
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #ifdef DEFAULTS_X_CARVE_500MM
@@ -405,6 +465,7 @@
   #define DEFAULT_HOMING_SEEK_RATE 750.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #ifdef DEFAULTS_X_CARVE_1000MM
@@ -451,6 +512,7 @@
   #define DEFAULT_HOMING_SEEK_RATE 750.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #ifdef DEFAULTS_MCNC_1000MM
@@ -502,6 +564,7 @@
   #define DEFAULT_HOMING_SEEK_RATE 750.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #ifdef DEFAULTS_ZEN_TOOLWORKS_7x7
@@ -546,6 +609,7 @@
   #define DEFAULT_HOMING_SEEK_RATE 250.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #ifdef DEFAULTS_OXCNC
@@ -586,6 +650,7 @@
   #define DEFAULT_HOMING_SEEK_RATE 500.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #ifdef DEFAULTS_SIMULATOR
@@ -626,6 +691,7 @@
   #define DEFAULT_HOMING_SEEK_RATE 500.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+  #define DEFAULT_XY_FACTOR 1.0             // x:1 factor
 #endif
 
 #endif

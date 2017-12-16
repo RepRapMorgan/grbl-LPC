@@ -331,16 +331,29 @@ uint8_t plan_buffer_line(float *target, plan_line_data_t *pl_data)
   uint8_t idx;
 
   // Copy position data based on type of motion being planned.
-  if (block->condition & PL_COND_FLAG_SYSTEM_MOTION) { 
+  if (block->condition & PL_COND_FLAG_SYSTEM_MOTION) {
+    #ifdef SQRCORRECT
+      position_steps[X_AXIS] = sys_position[A_AXIS];
+      position_steps[Y_AXIS] = system_convert_sqrcorrect_to_y_axis_steps(sys_position);
+      position_steps[Z_AXIS] = sys_position[Z_AXIS];
+      position_steps[A_AXIS] = sys_position[A_AXIS];
+    #else
     #ifdef COREXY
       position_steps[X_AXIS] = system_convert_corexy_to_x_axis_steps(sys_position);
       position_steps[Y_AXIS] = system_convert_corexy_to_y_axis_steps(sys_position);
       position_steps[Z_AXIS] = sys_position[Z_AXIS];
       position_steps[A_AXIS] = sys_position[A_AXIS];
     #else
-      memcpy(position_steps, sys_position, sizeof(sys_position)); 
+      memcpy(position_steps, sys_position, sizeof(sys_position));
+    #endif
     #endif
   } else { memcpy(position_steps, pl.position, sizeof(pl.position)); }
+
+  #ifdef SQRCORRECT
+    target_steps[B_MOTOR] = lround(target[B_MOTOR]*settings.steps_per_mm[B_MOTOR]);
+    block->steps[B_MOTOR] = labs((target_steps[Y_AXIS]-position_steps[Y_AXIS]) + block->steps[A_MOTOR]*((settings.xyfactor -1) /10));
+
+  #endif
 
   #ifdef COREXY
     target_steps[A_MOTOR] = lround(target[A_MOTOR]*settings.steps_per_mm[A_MOTOR]);
@@ -349,10 +362,23 @@ uint8_t plan_buffer_line(float *target, plan_line_data_t *pl_data)
     block->steps[B_MOTOR] = labs((target_steps[X_AXIS]-position_steps[X_AXIS]) - (target_steps[Y_AXIS]-position_steps[Y_AXIS]));
   #endif
 
+
   for (idx=0; idx<N_AXIS; idx++) {
     // Calculate target position in absolute steps, number of steps for each axis, and determine max step events.
     // Also, compute individual axes distance for move and prep unit vector calculations.
     // NOTE: Computes true distance from converted step values.
+    #ifdef SQRCORRECT
+      if ( !(idx == B_MOTOR) ) {
+        target_steps[idx] = lround(target[idx]*settings.steps_per_mm[idx]);
+        block->steps[idx] = labs(target_steps[idx]-position_steps[idx]);
+      }
+      block->step_event_count = max(block->step_event_count, block->steps[idx]);
+      if (idx == B_MOTOR) {
+        delta_mm = ((target_steps[Y_AXIS] - position_steps[Y_AXIS]) + (block->steps[A_MOTOR]*((settings.xyfactor -1) /10)  ))/settings.steps_per_mm[idx]);
+      } else {
+        delta_mm = (target_steps[idx] - position_steps[idx])/settings.steps_per_mm[idx];
+      }
+    #else
     #ifdef COREXY
       if ( !(idx == A_MOTOR) && !(idx == B_MOTOR) ) {
         target_steps[idx] = lround(target[idx]*settings.steps_per_mm[idx]);
@@ -372,6 +398,7 @@ uint8_t plan_buffer_line(float *target, plan_line_data_t *pl_data)
       block->step_event_count = max(block->step_event_count, block->steps[idx]);
       delta_mm = (target_steps[idx] - position_steps[idx])/settings.steps_per_mm[idx];
 	  #endif
+    #endif
     unit_vec[idx] = delta_mm; // Store unit vector numerator
 
     // Set direction bits. Bit enabled always means direction is negative.
@@ -391,7 +418,7 @@ uint8_t plan_buffer_line(float *target, plan_line_data_t *pl_data)
 
   // Store programmed rate.
   if (block->condition & PL_COND_FLAG_RAPID_MOTION) { block->programmed_rate = block->rapid_rate; }
-  else { 
+  else {
     block->programmed_rate = pl_data->feed_rate;
     if (block->condition & PL_COND_FLAG_INVERSE_TIME) { block->programmed_rate *= block->millimeters; }
   }
@@ -480,6 +507,14 @@ void plan_sync_position()
   // this function needs to be updated to accomodate the difference.
   uint8_t idx;
   for (idx=0; idx<N_AXIS; idx++) {
+    #ifdef SQRCORRECT
+      if (idx==Y_AXIS) {
+        pl.position[Y_AXIS] = system_convert_sqrcorrect_to_y_axis_steps(sys_position);
+      } else {
+        pl.position[idx] = sys_position[idx];
+      }
+
+    #else
     #ifdef COREXY
       if (idx==X_AXIS) {
         pl.position[X_AXIS] = system_convert_corexy_to_x_axis_steps(sys_position);
@@ -490,6 +525,7 @@ void plan_sync_position()
       }
     #else
       pl.position[idx] = sys_position[idx];
+    #endif
     #endif
   }
 }

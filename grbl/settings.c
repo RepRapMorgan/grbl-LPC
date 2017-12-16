@@ -28,7 +28,7 @@ settings_t settings;
 void settings_store_startup_line(uint8_t n, char *line)
 {
   #ifdef FORCE_BUFFER_SYNC_DURING_EEPROM_WRITE
-    protocol_buffer_synchronize(); // A startup line may contain a motion and be executing. 
+    protocol_buffer_synchronize(); // A startup line may contain a motion and be executing.
   #endif
   uint32_t addr = n*(LINE_BUFFER_SIZE+1)+EEPROM_ADDR_STARTUP_BLOCK;
   memcpy_to_eeprom_with_checksum(addr,(char*)line, LINE_BUFFER_SIZE);
@@ -98,6 +98,8 @@ void settings_restore(uint8_t restore_flag) {
     settings.homing_seek_rate = DEFAULT_HOMING_SEEK_RATE;
     settings.homing_debounce_delay = DEFAULT_HOMING_DEBOUNCE_DELAY;
     settings.homing_pulloff = DEFAULT_HOMING_PULLOFF;
+
+    settings.xyfactor = DEFAULT_XY_FACTOR;
 
     settings.flags = 0;
     if (DEFAULT_REPORT_INCHES) { settings.flags |= BITFLAG_REPORT_INCHES; }
@@ -340,6 +342,7 @@ uint8_t settings_store_global_setting(uint8_t parameter, float value) {
       case 34: settings.spindle_pwm_off_value = value; spindle_init(); break; // Re-initialize spindle pwm calibration
       case 35: settings.spindle_pwm_min_value = value; spindle_init(); break; // Re-initialize spindle pwm calibration
       case 36: settings.spindle_pwm_max_value = value; spindle_init(); break; // Re-initialize spindle pwm calibration
+      case 40: settings.xyfactor = value; break; // Re-initialize Square factor setings
       default:
         return(STATUS_INVALID_STATEMENT);
     }

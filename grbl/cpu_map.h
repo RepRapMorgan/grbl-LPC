@@ -715,9 +715,9 @@
   #define LIMIT_DDR         LPC_GPIO1->FIODIR
   #define LIMIT_PIN         LPC_GPIO1->FIOPIN
   #define LIMIT_PORT        LPC_GPIO1->FIOPIN
-  #define X_LIMIT_BIT       25  // X-MIN=24, X-MAX=25
+  #define X_LIMIT_BIT       24  // X-MIN=24, X-MAX=25
   #define Y_LIMIT_BIT       26  // Y-MIN=26, Y-MAX=27
-  #define Z_LIMIT_BIT	    28  // Z-MIN=28, Z-MAX=29
+  #define Z_LIMIT_BIT	      28  // Z-MIN=28, Z-MAX=29
   #define A_LIMIT_BIT       29  // reuse p1.29
   #define LIMIT_MASK       ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)|(1<<Z_LIMIT_BIT)|(1<<A_LIMIT_BIT)) // All limit bits
 
@@ -938,7 +938,7 @@
   #define COOLANT_MIST_PORT   LPC_GPIO2->FIOPIN
   #define COOLANT_MIST_BIT    7  // BED MOSFET (P2.7)
   #define ENABLE_M7           // enables COOLANT MIST
-  
+
   // Define user-control controls (cycle start, reset, feed hold) input pins.
   // NOTE: All CONTROLs pins must be on the same port and not on a port with other input pins (limits).
   #define CONTROL_DDR       NotUsed
@@ -964,8 +964,8 @@
   // The LPC17xx has 6 PWM channels. Each channel has 2 pins. It can drive both pins simultaneously to the same value.
   //
   // PWM Channel      PWM1_CH1  PWM1_CH2  PWM1_CH3  PWM1_CH4  PWM1_CH5  PWM1_CH6
-  // Primary pin      P1.18     P1.20     P1.21     P1.23     P1.24     P1.26   
-  // Secondary pin    P2.0      P2.1      P2.2      P2.3      P2.4      P2.5     
+  // Primary pin      P1.18     P1.20     P1.21     P1.23     P1.24     P1.26
+  // Secondary pin    P2.0      P2.1      P2.2      P2.3      P2.4      P2.5
   #ifdef SPINDLE_PWM_PIN_2_4
     #define SPINDLE_PWM_CHANNEL         PWM1_CH5    // MOSFET3 (P2.4)
   #else
