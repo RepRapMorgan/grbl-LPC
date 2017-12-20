@@ -193,8 +193,8 @@ void system_convert_array_steps_to_mpos(float *position, int32_t *steps);
 
 // SQRCORRECT calculation only. Returns x or y-axis "steps" based on SQRCORRECT motor steps.
 #ifdef SQRCORRECT
-  int32_t system_convert_sqrcorrect_to_x_axis_steps(int32_t *steps);
   int32_t system_convert_sqrcorrect_to_y_axis_steps(int32_t *steps);
+  int32_t system_convert_y_axis_steps_to_sqrcorrect(int32_t *steps);
 #endif
 
 // Checks and reports if target array exceeds machine travel limits.

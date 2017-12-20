@@ -724,7 +724,7 @@
   // Define flood and mist coolant enable output pins.
   #define COOLANT_FLOOD_DDR   LPC_GPIO2->FIODIR
   #define COOLANT_FLOOD_PORT  LPC_GPIO2->FIOPIN
-  #define COOLANT_FLOOD_BIT   6  // MOSFET 2.6
+  #define COOLANT_FLOOD_BIT   5  // MOSFET 2.5
   #define COOLANT_MIST_DDR    LPC_GPIO2->FIODIR
   #define COOLANT_MIST_PORT   LPC_GPIO2->FIOPIN
   #define COOLANT_MIST_BIT    7  // MOSFET 2.7
@@ -752,7 +752,7 @@
   #define PROBE_BIT       5  // Uno Analog Pin 5
   #define PROBE_MASK      (1<<PROBE_BIT)
 
-  // The LPC17xx has 6 PWM channels. Each channel has 2 pins. It can drive both pins simultaneously to the same value.
+   // The LPC17xx has 6 PWM channels. Each channel has 2 pins. It can drive both pins simultaneously to the same value.
   //
   // PWM Channel      PWM1_CH1  PWM1_CH2  PWM1_CH3  PWM1_CH4  PWM1_CH5  PWM1_CH6
   // Primary pin      P1.18     P1.20     P1.21     P1.23     P1.24     P1.26
@@ -774,6 +774,7 @@
     #define SPINDLE_PWM_MIN_VALUE   1   // Must be greater than zero.
   #endif
   //#define SPINDLE_PWM_OFF_VALUE     0 // Defined in config.h
+  #define SPINDLE_ENABLE_BIT
   #define SPINDLE_PWM_RANGE         (SPINDLE_PWM_MAX_VALUE-SPINDLE_PWM_MIN_VALUE)
   #define SPINDLE_TCCRA_REGISTER	TCCR2A
   #define SPINDLE_TCCRB_REGISTER	TCCR2B

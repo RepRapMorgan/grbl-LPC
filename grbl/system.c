@@ -294,9 +294,6 @@ float system_convert_axis_steps_to_mpos(int32_t *steps, uint8_t idx)
   float pos;
 
   #ifdef SQRCORRECT
-    //if (idx==X_AXIS) {
-    //  pos = (float)system_convert_sqrcorrect_to_x_axis_steps(steps) / settings.steps_per_mm[idx];
-    //]]} else
     if (idx==Y_AXIS) {
       pos = (float)system_convert_sqrcorrect_to_y_axis_steps(steps) / settings.steps_per_mm[idx];
     } else {
@@ -337,7 +334,7 @@ void system_convert_array_steps_to_mpos(float *position, int32_t *steps)
 }
 
 
-// CoreXY calculation only. Returns x or y-axis "steps" based on CoreXY motor steps. Reverse Kinematics
+// CoreXY calculation only. Returns x or y-axis "steps" based on CoreXY motor steps. FORWARD Kinematics
 #ifdef COREXY
   int32_t system_convert_corexy_to_x_axis_steps(int32_t *steps)
   {
@@ -351,13 +348,15 @@ void system_convert_array_steps_to_mpos(float *position, int32_t *steps)
 
 // SQRCORRECT calculation only. Returns x or y-axis "steps" based on CoreXY motor steps. Forward Kinematics
 #ifdef SQRCORRECT
-  //int32_t system_convert_sqrcorrect_to_x_axis_steps(int32_t *steps)
-  //{
-  //  return( (steps[A_MOTOR] ));
-  //}
+
   int32_t system_convert_sqrcorrect_to_y_axis_steps(int32_t *steps)
   {
     return( (steps[B_MOTOR] - steps[A_MOTOR]*((settings.xyfactor -1) /10)));
+  }
+
+  int32_t system_convert_y_axis_steps_to_sqrcorrect(int32_t *steps)
+  {
+    return( (steps[B_MOTOR] + steps[A_MOTOR]*((settings.xyfactor -1) /10)));
   }
 #endif
 

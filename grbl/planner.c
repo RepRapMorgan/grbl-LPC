@@ -349,12 +349,6 @@ uint8_t plan_buffer_line(float *target, plan_line_data_t *pl_data)
     #endif
   } else { memcpy(position_steps, pl.position, sizeof(pl.position)); }
 
-  #ifdef SQRCORRECT
-    target_steps[B_MOTOR] = lround(target[B_MOTOR]*settings.steps_per_mm[B_MOTOR]);
-    block->steps[B_MOTOR] = labs((target_steps[Y_AXIS]-position_steps[Y_AXIS]) + block->steps[A_MOTOR]*((settings.xyfactor -1) /10));
-
-  #endif
-
   #ifdef COREXY
     target_steps[A_MOTOR] = lround(target[A_MOTOR]*settings.steps_per_mm[A_MOTOR]);
     target_steps[B_MOTOR] = lround(target[B_MOTOR]*settings.steps_per_mm[B_MOTOR]);
@@ -368,13 +362,21 @@ uint8_t plan_buffer_line(float *target, plan_line_data_t *pl_data)
     // Also, compute individual axes distance for move and prep unit vector calculations.
     // NOTE: Computes true distance from converted step values.
     #ifdef SQRCORRECT
-      if ( !(idx == B_MOTOR) ) {
-        target_steps[idx] = lround(target[idx]*settings.steps_per_mm[idx]);
+
+      target_steps[idx] = lround(target[idx]*settings.steps_per_mm[idx]);
+
+      if ( idx == B_MOTOR ) {
+        block->steps[idx] = labs(system_convert_y_axis_steps_to_sqrcorrect(target_steps)-system_convert_y_axis_steps_to_sqrcorrect(position_steps));
+      }
+      else
+      {
         block->steps[idx] = labs(target_steps[idx]-position_steps[idx]);
       }
+
       block->step_event_count = max(block->step_event_count, block->steps[idx]);
+
       if (idx == B_MOTOR) {
-        delta_mm = ((target_steps[Y_AXIS] - position_steps[Y_AXIS]) + (block->steps[A_MOTOR]*((settings.xyfactor -1) /10)  ))/settings.steps_per_mm[idx]);
+        delta_mm = (system_convert_y_axis_steps_to_sqrcorrect(target_steps)-system_convert_y_axis_steps_to_sqrcorrect(position_steps)) / settings.steps_per_mm[B_MOTOR];
       } else {
         delta_mm = (target_steps[idx] - position_steps[idx])/settings.steps_per_mm[idx];
       }

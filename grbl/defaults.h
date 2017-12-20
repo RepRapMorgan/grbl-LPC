@@ -181,7 +181,7 @@
   #define DEFAULT_HOMING_PULLOFF 2.0        // mm
   #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))
   #define HOMING_CYCLE_1 (1<<Z_AXIS)
-  #define DEFAULT_XY_FACTOR 0.938           // x:1 factor  0=-10% x   2=+10% x
+  #define DEFAULT_XY_FACTOR 1.000           // x:1 factor  0=-10% x   2=+10% x
 #endif
 
 #ifdef DEFAULTS_FABKIT

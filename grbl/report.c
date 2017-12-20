@@ -391,6 +391,9 @@ void report_build_info(char *line)
   #ifdef COREXY
     serial_write('C');
   #endif
+  #ifdef SQRCORRECT
+    serial_write('Q');
+  #endif
   #ifdef PARKING_ENABLE
     serial_write('P');
   #endif

@@ -580,7 +580,7 @@
 
 // LPC176x flash blocks have a rating of 10,000 write cycles. To prevent excess wear, we don't
 // write G10, G28.1, and G30.1. Uncomment to enable these writes.
-#define STORE_COORD_DATA // Default disabled. Uncomment to enable.
+// #define STORE_COORD_DATA // Default disabled. Uncomment to enable.
 
 // In Grbl v0.9 and prior, there is an old outstanding bug where the `WPos:` work position reported
 // may not correlate to what is executing, because `WPos:` is based on the g-code parser state, which
@@ -613,8 +613,8 @@
 // #define PARKING_ENABLE  // Default disabled. Uncomment to enable
 
 // Configure options for the parking motion, if enabled.
-#define PARKING_AXIS Z_AXIS // Define which axis that performs the parking motion
-#define PARKING_TARGET -5.0 // Parking axis target. In mm, as machine coordinate [-max_travel,0].
+#define PARKING_AXIS Y_AXIS // Define which axis that performs the parking motion
+#define PARKING_TARGET 0.0 // Parking axis target. In mm, as machine coordinate [-max_travel,0].
 #define PARKING_RATE 500.0 // Parking fast rate after pull-out in mm/min.
 #define PARKING_PULLOUT_RATE 100.0 // Pull-out/plunge slow feed rate in mm/min.
 #define PARKING_PULLOUT_INCREMENT 5.0 // Spindle pull-out and plunge distance in mm. Incremental distance.
